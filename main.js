@@ -3,7 +3,10 @@ const desktopMenu = document.querySelector(".desktop-menu");
 const mobileMenu = document.querySelector(".mobile-menu");
 const menuBurguerIcon = document.querySelector(".menu");
 const navbarShoppingCart = document.querySelector(".navbar-shopping-cart");
+const productDetailCloseIcon = document.querySelector(".product-detail-close");
 const shoppingCartContainer = document.querySelector("#shoppingCartContainer");
+
+const productDetailContainer = document.querySelector("#productDetail");
 
 const cardsContainer = document.querySelector(".cards-container");
 
@@ -11,6 +14,7 @@ const cardsContainer = document.querySelector(".cards-container");
 navbarEmail.addEventListener("click", toggleDesktopMenu);
 menuBurguerIcon.addEventListener("click", toggleMobileMenu);
 navbarShoppingCart.addEventListener("click", toggleCarritoAside);
+productDetailCloseIcon.addEventListener("click", closeProductDetailAside);
 
 // Funciones que nos ayudan a aparecer y desaparecer el elemnto gracias a la clase 'inactive'
 function toggleDesktopMenu() {
@@ -29,6 +33,7 @@ function toggleMobileMenu() {
   if (!isAsideClosed) {
     shoppingCartContainer.classList.add("inactive");
   }
+  closeProductDetailAside();
   mobileMenu.classList.toggle("inactive");
 }
 
@@ -38,6 +43,14 @@ function toggleCarritoAside() {
   if (!isMobileMenuClosed) {
     mobileMenu.classList.add("inactive");
   }
+
+  const isProductDetailClosed =
+    productDetailContainer.classList.contains("inactive");
+
+  if (!isProductDetailClosed) {
+    productDetailContainer.classList.add("inactive");
+  }
+
   shoppingCartContainer.classList.toggle("inactive");
 }
 
@@ -60,6 +73,16 @@ productList.push({
     "https://assets.xboxservices.com/assets/fb/d2/fbd2cb56-5c25-414d-9f46-e6a164cdf5be.png?n=XBX_A-BuyBoxBGImage01-D.png",
 });
 
+function openProductDetailAside() {
+  shoppingCartContainer.classList.add("inactive");
+
+  productDetailContainer.classList.remove("inactive");
+}
+
+function closeProductDetailAside() {
+  productDetailContainer.classList.add("inactive");
+}
+
 function renderProdutcs(arr) {
   for (product of arr) {
     const productCard = document.createElement("div");
@@ -67,6 +90,7 @@ function renderProdutcs(arr) {
 
     const productImg = document.createElement("img");
     productImg.setAttribute("src", product.image);
+    productImg.addEventListener("click", openProductDetailAside);
 
     const productInfo = document.createElement("div");
     productInfo.classList.add("product-info");
